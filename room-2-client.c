@@ -1,10 +1,4 @@
-/*
- * p3_udp_client_ej2.c
- *
- *  Created on: Nov 12, 2024
- *      Author: user
- */
-
+/*Room 2 client code*/
 
 #include "contiki.h"
 
@@ -71,7 +65,8 @@ PROCESS_THREAD(p3_udp_client_process, ev, data)
   PROCESS_BEGIN();
 
 
-  printf("Hello, Welcome to Contiki-NG client process!\n");
+  printf("Room 1 monitoring started\n");
+/* Setup a periodic timer (etimer) using etimermr_set, etimer_expired and etimer_reset */
 
   //Sensor configuration
   GPIO_PinModeSet(gpioPortF, 8, gpioModePushPull, 1);		// consum, set as out pin (PushPull)
@@ -96,12 +91,16 @@ PROCESS_THREAD(p3_udp_client_process, ev, data)
     //Sensor measurement
     SI7021_measure(&hume, &temper);
 
-    char message[200];
-    sprintf(message, "Humidity: %lu.%lu (%%) ; Temperature: %lu.%lu (%%)\n", hume/1000, hume%1000, (temper+10)/1000, (temper+10)%1000);
+	char message1[10]; 
+    char message2[10]; 
+    sprintf(message1, "R2H %lu\n", hume); 
+    sprintf(message2, "R2T %lu\n", temper);
 
     if(NETSTACK_ROUTING.node_is_reachable() && NETSTACK_ROUTING.get_root_ipaddr(&dest_addr) ){
-    	printf("Sending message to the server\n");
-    	simple_udp_sendto(&udp_conn, message, sizeof(message), &dest_addr);
+    	printf("Sending messages to the server\n");
+		printf("Humidity: %lu.%lu (%%) ; Temperature: %lu.%lu (ºC)\n", hume/1000, hume%1000, temper/1000, temper%1000);
+    	simple_udp_sendto(&udp_conn, message1, sizeof(message1), &dest_addr); 
+      	simple_udp_sendto(&udp_conn, message2, sizeof(message2), &dest_addr);
     }else{
     	printf("Destination node not reachable yet\n");
     }
@@ -109,8 +108,6 @@ PROCESS_THREAD(p3_udp_client_process, ev, data)
     etimer_reset(&timer);
 
   }
-
-
   PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/
