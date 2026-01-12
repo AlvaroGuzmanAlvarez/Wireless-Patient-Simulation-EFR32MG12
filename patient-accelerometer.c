@@ -1,10 +1,4 @@
-/*
- * p3_udp_client_ej2.c
- *
- *  Created on: Nov 12, 2024
- *      Author: user
- */
-
+/*Accelerometer client code*/
 
 #include "contiki.h"
 
@@ -74,8 +68,9 @@ PROCESS_THREAD(p3_udp_client_process, ev, data)
   PROCESS_BEGIN();
 
 
+  leds_on(LEDS_RED); 
   printf("Accelerometer process started\n");
-/* Setup a periodic timer (etimer) using etimermr_set, etimer_expired and etimer_reset */
+  /* Setup a periodic timer (etimer) using etimermr_set, etimer_expired and etimer_reset */
 
   //Sensor configuration
   GPIO_PinModeSet(gpioPortF, 11, gpioModePushPull, 1);		// inertial, set as out pin (PushPull)
@@ -101,6 +96,7 @@ PROCESS_THREAD(p3_udp_client_process, ev, data)
 		accelint[i] = (int32_t) 1000*accelflo[i];
 
 	}
+	//Acceleration module calculation for sending it to the sever
 	accelmod = sqrt(accelint[0]*accelint[0] + accelint[1]*accelint[1] + accelint[2]*accelint[2]);
 	accelmodule = (int32_t) 1000*accelmod;
 
@@ -120,11 +116,9 @@ PROCESS_THREAD(p3_udp_client_process, ev, data)
 
 	    printf("Destination node not reachable yet\n");
 	}
-
 	etimer_reset(&timer);
-
+	  
   }
-
 
   PROCESS_END();
 }
