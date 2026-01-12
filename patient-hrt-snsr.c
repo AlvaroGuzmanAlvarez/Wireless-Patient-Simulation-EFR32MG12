@@ -1,10 +1,4 @@
-/*
- * patient-hrt-snsr.c
- *
- *  Created on: Dec 31, 2024
- *      Author: user
- */
-
+/*Heart sensor client code*/
 
 #include "contiki.h"
 
