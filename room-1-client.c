@@ -1,11 +1,4 @@
-/*
- * p3_udp_client_ej2.c
- *
- *  Created on: Nov 12, 2024
- *      Author: user
- */
-
-
+/*Room 1 client code*/
 #include "contiki.h"
 
 #include <stdio.h> /* For printf() */
