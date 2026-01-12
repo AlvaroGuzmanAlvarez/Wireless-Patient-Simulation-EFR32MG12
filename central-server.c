@@ -1,9 +1,4 @@
-byhyn/*
- * p3_udp_server_ej2.c
- *
- *  Created on: Nov 12, 2024
- *      Author: user
- */
+/*Central server code*/
 
 //Includes
 
